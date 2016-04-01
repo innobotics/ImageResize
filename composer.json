@@ -1,0 +1,23 @@
+{
+  "name": "innobotics/imageresize",
+  "description": "PHP class to resize images",
+  "type": "library",
+  "keywords": ["image", "resize", "php"],
+  "homepage": "https://github.com/innobotics/imageresize",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Norbert Lakatos",
+      "homepage": "http://innobotics.eu/"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "ext-gd": "*",
+    "ext-imagick": "*",
+    "ext-exif": "*"
+  },
+  "autoload": {
+    "classmap": ["src"]
+  }
+}
