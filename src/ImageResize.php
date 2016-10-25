@@ -19,6 +19,8 @@ namespace Innobotics;
  *
  * $image->setSaveOriginal(false); //optional
  *
+ * $image->setProgressive(false); // optional
+ *
  * $image->setPrefix('notesz'); // optional
  *
  * if ($image->resize() === true) {
@@ -66,6 +68,8 @@ class ImageResize
 
     private $saveOriginal;
 
+    private $progressive;
+
     public function __construct()
     {
         $this->type = array();
@@ -83,6 +87,8 @@ class ImageResize
         $this->message = '';
 
         $this->saveOriginal = true;
+
+        $this->progressive = true;
     }
 
     /**
@@ -255,6 +261,26 @@ class ImageResize
     }
 
     /**
+     * @param $progressive|bool
+     *
+     * @return bool
+     */
+    public function setProgressive($progressive)
+    {
+        $this->progressive = $progressive;
+
+        return $this->progressive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getProgressive()
+    {
+        return $this->progressive;
+    }
+
+    /**
      * Resize
      *
      * @return bool
@@ -363,6 +389,11 @@ class ImageResize
 
                 // Sharpen image
                 $img->adaptiveSharpenImage(2, 1);
+
+                // Set progressive
+                if ($this->progressive === true) {
+                    $img->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
+                }
 
                 // Save
                 $outFileName = (empty($this->prefix) ? '' : $this->prefix . self::SEPARATOR) . $fileName . self::SEPARATOR . $key . '.' . $fileNameExtension;
