@@ -21,6 +21,8 @@ namespace Innobotics;
  *
  * $image->setProgressive(false); // optional
  *
+ * $image->setRetina(true); // optional
+ *
  * $image->setPrefix('notesz'); // optional
  *
  * if ($image->resize() === true) {
@@ -47,6 +49,8 @@ class ImageResize
 
     const SEPARATOR = '_';
 
+    const RETINA_POSTFIX = '@2x';
+
     /**
      * Types of the image.
      *
@@ -70,6 +74,8 @@ class ImageResize
 
     private $progressive;
 
+    private $retina;
+
     public function __construct()
     {
         $this->type = array();
@@ -89,6 +95,8 @@ class ImageResize
         $this->saveOriginal = true;
 
         $this->progressive = true;
+
+        $this->retina = false;
     }
 
     /**
@@ -261,10 +269,10 @@ class ImageResize
     }
 
     /**
-     * @param $progressive|bool
-     *
-     * @return bool
-     */
+ * @param $progressive|bool
+ *
+ * @return bool
+ */
     public function setProgressive($progressive)
     {
         $this->progressive = $progressive;
@@ -278,6 +286,26 @@ class ImageResize
     public function getProgressive()
     {
         return $this->progressive;
+    }
+
+    /**
+     * @param $retina|bool
+     *
+     * @return bool
+     */
+    public function setRetina($retina)
+    {
+        $this->retina = $retina;
+
+        return $this->retina;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRetina()
+    {
+        return $this->retina;
     }
 
     /**
@@ -301,6 +329,13 @@ class ImageResize
             //@todo: check filename
             $fileNameExtension = \substr($this->filename, \strrpos($this->filename, '.')+1);
             $fileName = \str_replace('.' . $fileNameExtension, '', $this->filename);
+
+            // Define retina size images
+            if ($this->retina === true) {
+                foreach ($this->type as $key => $imageType) {
+                    $this->setType($key . self::RETINA_POSTFIX, $imageType['sizeWidth']*2, $imageType['sizeHeight']*2);
+                }
+            }
 
             // Resize and save images
             //@todo: check type

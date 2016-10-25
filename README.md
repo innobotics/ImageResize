@@ -67,6 +67,12 @@ Would you like to disable progressive (setInterlace)? Add this one: (It is optio
 $image->setProgressive(false); //optional
 ```
 
+Would you like to use retina sizes? Add this one: (It is optional)
+
+```php
+$image->setRetina(true); //optional
+```
+
 If you don't want to save the original image you can disable it. Add this one: (It is optional)
 
 ```php
