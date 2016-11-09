@@ -73,6 +73,12 @@ Would you like to use retina sizes? Add this one: (It is optional)
 $image->setRetina(true); //optional
 ```
 
+Would you like to set compression? Add this one: (It is optional)
+
+```php
+$image->setCompression(75); //optional
+```
+
 If you don't want to save the original image you can disable it. Add this one: (It is optional)
 
 ```php

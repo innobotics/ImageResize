@@ -51,6 +51,8 @@ class ImageResize
 
     const RETINA_POSTFIX = '@2x';
 
+    const COMPRESSION_QUALITY = 75;
+
     /**
      * Types of the image.
      *
@@ -74,6 +76,8 @@ class ImageResize
 
     private $progressive;
 
+    private $compression;
+
     private $retina;
 
     public function __construct()
@@ -95,6 +99,8 @@ class ImageResize
         $this->saveOriginal = true;
 
         $this->progressive = true;
+
+        $this->compression = self::COMPRESSION_QUALITY;
 
         $this->retina = false;
     }
@@ -269,10 +275,10 @@ class ImageResize
     }
 
     /**
- * @param $progressive|bool
- *
- * @return bool
- */
+     * @param $progressive|bool
+     *
+     * @return bool
+     */
     public function setProgressive($progressive)
     {
         $this->progressive = $progressive;
@@ -286,6 +292,26 @@ class ImageResize
     public function getProgressive()
     {
         return $this->progressive;
+    }
+
+    /**
+     * @param $compression|int
+     *
+     * @return int
+     */
+    public function setCompression($compression)
+    {
+        $this->compression = $compression;
+
+        return $this->compression;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompression()
+    {
+        return $this->compression;
     }
 
     /**
@@ -429,6 +455,9 @@ class ImageResize
                 if ($this->progressive === true) {
                     $img->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
                 }
+
+                // Set compression quality
+                $img->setCompressionQuality($this->compression);
 
                 // Save
                 $outFileName = (empty($this->prefix) ? '' : $this->prefix . self::SEPARATOR) . $fileName . self::SEPARATOR . $key . '.' . $fileNameExtension;
