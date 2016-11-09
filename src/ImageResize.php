@@ -458,6 +458,7 @@ class ImageResize
 
                 // Set compression quality
                 $img->setCompressionQuality($this->compression);
+                $img->setImageCompressionQuality($this->compression);
 
                 // Save
                 $outFileName = (empty($this->prefix) ? '' : $this->prefix . self::SEPARATOR) . $fileName . self::SEPARATOR . $key . '.' . $fileNameExtension;
