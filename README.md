@@ -55,6 +55,12 @@ If you don't like the original name, you can add a new filename. (It is optional
 $image->setFileName('bianka.jpg'); //optional
 ```
 
+Would you like to set compression? Add this one: (It is optional, the default value is 75)
+
+```php
+$image->setCompression(100); //optional
+```
+
 Would you like to use a file prefix? Add this one: (It is optional)
 
 ```php
