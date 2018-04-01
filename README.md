@@ -35,6 +35,7 @@ Add types. The type contains the key, and the image's size.
 $image->setType('large', 640, 480);
 $image->setType('medium', 320, 240);
 $image->setType('thumbnail', 160, 120);
+$image->setType('content', 500, null); // You can add 'null' as height. It won't be cropped.
 ```
 
 Add the source file.

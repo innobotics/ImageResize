@@ -403,56 +403,74 @@ class ImageResize
                     $imageRotation = 'square';
                 }
 
-                switch ($imageRotation) {
-                    case 'landscape':
-                        $width = \round($imageWidth/($imageHeight/$imageType['sizeHeight']));
-                        $height = $imageType['sizeHeight'];
+                if ($imageType['height'] == null) {
 
-                        if ($width < $imageType['sizeWidth']) {
+                    $width = $imageType['width'];
+                    $height = \round($imageHeight/($imageWidth/$imageType['width']));
+
+                    $img->resizeImage(
+                        $width,
+                        $height,
+                        \Imagick::FILTER_LANCZOS,
+                        0.9,
+                        true
+                    );
+
+                } else {
+
+                    switch ($imageRotation) {
+                        case 'landscape':
+                            $width = \round($imageWidth/($imageHeight/$imageType['sizeHeight']));
+                            $height = $imageType['sizeHeight'];
+
+                            if ($width < $imageType['sizeWidth']) {
+                                $width = $imageType['sizeWidth'];
+                                $height = \round($imageHeight/($imageWidth/$imageType['sizeWidth']));
+                            }
+
+                            break;
+
+                        case 'portrait':
                             $width = $imageType['sizeWidth'];
                             $height = \round($imageHeight/($imageWidth/$imageType['sizeWidth']));
-                        }
 
-                        break;
+                            if ($height < $imageType['sizeHeight']) {
+                                $width = \round($imageWidth/($imageHeight/$imageType['sizeHeight']));
+                                $height = $imageType['sizeHeight'];
+                            }
 
-                    case 'portrait':
-                        $width = $imageType['sizeWidth'];
-                        $height = \round($imageHeight/($imageWidth/$imageType['sizeWidth']));
+                            break;
 
-                        if ($height < $imageType['sizeHeight']) {
-                            $width = \round($imageWidth/($imageHeight/$imageType['sizeHeight']));
-                            $height = $imageType['sizeHeight'];
-                        }
+                        case 'square':
+                            $width = $imageType['sizeWidth'];
+                            $height = \round($imageHeight/($imageWidth/$imageType['sizeWidth']));
 
-                        break;
+                            if ($height < $imageType['sizeHeight']) {
+                                $width = \round($imageWidth/($imageHeight/$imageType['sizeHeight']));
+                                $height = $imageType['sizeHeight'];
+                            }
 
-                    case 'square':
-                        $width = $imageType['sizeWidth'];
-                        $height = \round($imageHeight/($imageWidth/$imageType['sizeWidth']));
+                            break;
+                    }
 
-                        if ($height < $imageType['sizeHeight']) {
-                            $width = \round($imageWidth/($imageHeight/$imageType['sizeHeight']));
-                            $height = $imageType['sizeHeight'];
-                        }
+                    $img->resizeImage(
+                        $width,
+                        $height,
+                        \Imagick::FILTER_LANCZOS,
+                        0.9,
+                        true
+                    );
 
-                        break;
+                    // Crop the image
+                    $img->cropImage(
+                        $imageType['sizeWidth'],
+                        $imageType['sizeHeight'],
+                        0,
+                        0
+                    );
+
                 }
 
-                $img->resizeImage(
-                    $width,
-                    $height,
-                    \Imagick::FILTER_LANCZOS,
-                    0.9,
-                    true
-                );
-
-                // Crop the image
-                $img->cropImage(
-                    $imageType['sizeWidth'],
-                    $imageType['sizeHeight'],
-                    0,
-                    0
-                );
 
                 // Sharpen image
                 $img->adaptiveSharpenImage(2, 1);
