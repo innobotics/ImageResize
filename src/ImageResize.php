@@ -13,6 +13,7 @@ namespace Innobotics;
  * $image->setType('large', 640, 480);
  * $image->setType('medium', 320, 240);
  * $image->setType('thumbnail', 160, 120);
+ * $image->setType('content', 320, null);
  *
  * $image->setSource('/home/notesz/images/0001.jpg');
  * $image->setTarget('/home/notesz/images/resized');
@@ -403,10 +404,10 @@ class ImageResize
                     $imageRotation = 'square';
                 }
 
-                if ($imageType['height'] == null) {
+                if ($imageType['sizeHeight'] == null) {
 
-                    $width = $imageType['width'];
-                    $height = \round($imageHeight/($imageWidth/$imageType['width']));
+                    $width = $imageType['sizeWidth'];
+                    $height = \round($imageHeight/($imageWidth/$imageType['sizeWidth']));
 
                     $img->resizeImage(
                         $width,
