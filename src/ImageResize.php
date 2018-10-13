@@ -54,6 +54,8 @@ class ImageResize
 
     const COMPRESSION_QUALITY = 75;
 
+    const KEY_ORIGINAL = 'original';
+
     /**
      * Types of the image.
      *
@@ -345,8 +347,15 @@ class ImageResize
         try {
             $resultMessage = array();
 
+            if (\key_exists(self::KEY_ORIGINAL, $this->type)) {
+                throw new Exception('you can\'t use "' . self::KEY_ORIGINAL . '" as a key');
+            }
+
+            if (!\is_file($this->source)) {
+                throw new Exception('unable to open image `' . $this->source . '`: No such file');
+            }
+
             // Set filename
-            //@todo: check source
             if (empty($this->filename)) {
                 $source = \explode('/', $this->source);
                 $this->setFileName($source[\count($source)-1]);
@@ -371,8 +380,11 @@ class ImageResize
                 $img = new \Imagick($this->source);
 
                 // Get exif and rotate the image
-                $exif = \exif_read_data($this->source, 'IFD0');
-                if (!empty($exif) && !empty($exif['Orientation'])) {
+                $exif = @\exif_read_data($this->source, 'IFD0');
+                if (
+                    !$exif &&
+                    !empty($exif['Orientation'])
+                ) {
                     switch ($exif['Orientation']) {
                         case 8:
                             $img->rotateImage(new \ImagickPixel(), -90);
@@ -498,10 +510,12 @@ class ImageResize
 
                 // Save
                 $outFileName = (empty($this->prefix) ? '' : $this->prefix . self::SEPARATOR) . $fileName . '.' . $fileNameExtension;
-                @\unlink($this->target . '/' . $outFileName);
-                \copy($this->source, $this->target . '/' . $outFileName);
+                if ($this->source != $this->target . '/' . $outFileName) {
+                    @\unlink($this->target . '/' . $outFileName);
+                    \copy($this->source, $this->target . '/' . $outFileName);
+                }
 
-                $resultMessage['original'] = $outFileName;
+                $resultMessage[self::KEY_ORIGINAL] = $outFileName;
             }
 
             // Set status
