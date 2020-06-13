@@ -54,6 +54,8 @@ class ImageResize
 
     const COMPRESSION_QUALITY = 75;
 
+    const COMPRESSION_TYPE = 9;
+
     const KEY_ORIGINAL = 'original';
 
     /**
@@ -81,6 +83,8 @@ class ImageResize
 
     private $compression;
 
+    private $compressionType;
+
     private $retina;
 
     public function __construct()
@@ -104,6 +108,8 @@ class ImageResize
         $this->progressive = true;
 
         $this->compression = self::COMPRESSION_QUALITY;
+
+        $this->compressionType = self::COMPRESSION_TYPE;
 
         $this->retina = false;
     }
@@ -300,6 +306,20 @@ class ImageResize
     /**
      * @param $compression|int
      *
+     * COMPRESSION_NO: 1
+     * COMPRESSION_BZIP: 2
+     * COMPRESSION_FAX: 6
+     * COMPRESSION_GROUP4: 7
+     * COMPRESSION_JPEG: 8
+     * COMPRESSION_JPEG2000: 9
+     * COMPRESSION_LOSSLESSJPEG: 10
+     * COMPRESSION_LZW: 11
+     * COMPRESSION_RLE: 12
+     * COMPRESSION_ZIP: 13
+     * COMPRESSION_DXT1: 3
+     * COMPRESSION_DXT3: 4
+     * COMPRESSION_DXT5: 5
+     *
      * @return int
      */
     public function setCompression($compression)
@@ -307,6 +327,22 @@ class ImageResize
         $this->compression = $compression;
 
         return $this->compression;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompressionType()
+    {
+        return $this->compressionType;
+    }
+
+    /**
+     * @param mixed $compressionType
+     */
+    public function setCompressionType($compressionType)
+    {
+        $this->compressionType = $compressionType;
     }
 
     /**

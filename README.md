@@ -62,6 +62,13 @@ Would you like to set compression? Add this one: (It is optional, the default va
 $image->setCompression(100); //optional
 ```
 
+Would you like to set compression type? Add this one: (It is optional, the default value is 9)
+You can find types here: https://www.geeksforgeeks.org/php-imagick-setimagecompression-function/
+
+```php
+$image->setCompressionType(8); //optional
+```
+
 Would you like to use a file prefix? Add this one: (It is optional)
 
 ```php
