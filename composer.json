@@ -1,7 +1,7 @@
 {
   "name": "innobotics/imageresize",
   "description": "PHP class to resize images",
-  "version" : "1.4.4",
+  "version" : "1.4.5",
   "type": "library",
   "keywords": ["image", "resize", "php", "retina"],
   "homepage": "https://github.com/innobotics/imageresize",
